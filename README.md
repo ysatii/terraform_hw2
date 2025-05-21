@@ -312,12 +312,27 @@ variable "zone_b" {
  ![рис 14](https://github.com/ysatii/terraform_hw2/blob/main/img/img_14.jpg)
 
 
-### Задание 4
+## Задание 4
 
 1. Объявите в файле outputs.tf **один** output , содержащий: instance_name, external_ip, fqdn для каждой из ВМ в удобном лично для вас формате.(без хардкода!!!)
 2. Примените изменения.
 
 В качестве решения приложите вывод значений ip-адресов команды ```terraform output```.
+
+## Решение 4
+листинг outputs.tf 
+```
+output "VMs" {
+  value = {
+    instance_name1 = yandex_compute_instance.platform.name
+    external_ip1   = yandex_compute_instance.platform.network_interface.0.nat_ip_address
+
+    instance_name2 = yandex_compute_instance.platform1.name
+    external_ip2   = yandex_compute_instance.platform1.network_interface.0.nat_ip_address
+  }
+}
+```
+ ![рис 15](https://github.com/ysatii/terraform_hw2/blob/main/img/img_15.jpg)
 
 
 ### Задание 5

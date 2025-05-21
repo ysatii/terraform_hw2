@@ -50,7 +50,7 @@ resource "yandex_vpc_subnet" "develop_b" {
   v4_cidr_blocks = var.default_cidr_b
 }
 
-resource "yandex_compute_instance" "netology-develop-platform-db" {
+resource "yandex_compute_instance" "platform1" {
   name        = var.vm_db_instance_name
   platform_id = var.vm_db_platform_id
   zone                      = var.zone_b
