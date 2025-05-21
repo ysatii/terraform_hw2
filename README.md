@@ -389,6 +389,8 @@ name         = local.vm_db_instance_name
      }
    }
    ```
+
+   
 3. Создайте и используйте отдельную map(object) переменную для блока metadata, она должна быть общая для всех ваших ВМ.
    ```
    пример из terraform.tfvars:
