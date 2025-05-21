@@ -44,7 +44,7 @@ variable vm_web_instance_name{
 
 variable "vm_web_platform_id" {
   type        = string
-  default     = "standard-v2"
+  default     = "standard-v1"
   description = "VM platform type"
 }
 
@@ -58,7 +58,7 @@ variable "vm_web_platform_configs" {
   default = {
     "standard-v1" = {
       cores         = 2
-      memory        = 4
+      memory        = 2
       core_fraction = 5
     }
     "standard-v2" = {

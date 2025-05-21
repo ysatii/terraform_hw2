@@ -203,11 +203,113 @@ variable "vm_web_platform_configs" {
 
 
 
-### Задание 3
+## Задание 3
 
 1. Создайте в корне проекта файл 'vms_platform.tf' . Перенесите в него все переменные первой ВМ.
 2. Скопируйте блок ресурса и создайте с его помощью вторую ВМ в файле main.tf: **"netology-develop-platform-db"** ,  ```cores  = 2, memory = 2, core_fraction = 20```. Объявите её переменные с префиксом **vm_db_** в том же файле ('vms_platform.tf').  ВМ должна работать в зоне "ru-central1-b"
 3. Примените изменения.
+
+## Решение 3
+1. Создан  vms_platform.tf
+2. Содержимое main.tf для создания машины в зоне B
+```
+
+resource "yandex_vpc_subnet" "develop_b" {
+  name           = "develop_b"
+  zone           = var.zone_b
+  network_id     = yandex_vpc_network.develop.id
+  v4_cidr_blocks = var.default_cidr_b
+}
+
+resource "yandex_compute_instance" "netology-develop-platform-db" {
+  name        = var.vm_db_instance_name
+  platform_id = var.vm_db_platform_id
+  zone                      = var.zone_b
+  resources {
+    cores         = var.vm_db_platform_configs[var.vm_db_platform_id].cores
+    memory        = var.vm_db_platform_configs[var.vm_db_platform_id].memory
+    core_fraction = var.vm_db_platform_configs[var.vm_db_platform_id].core_fraction
+  }
+  boot_disk {
+    initialize_params {
+      image_id = data.yandex_compute_image.ubuntu.image_id
+    }
+  }
+  scheduling_policy {
+    preemptible = true
+  }
+  network_interface {
+    subnet_id = yandex_vpc_subnet.develop_b.id
+    nat       = true
+  }
+
+  metadata = {
+    serial-port-enable = 1
+    ssh-keys           = "ubuntu:${var.vms_ssh_root_key}"
+  }
+}
+```
+
+Листинг vms_platform.tf
+```
+variable vm_db_instance_name{
+  type        = string
+  default     = "netology-develop-platform-db"
+  description = "instance name"
+}
+
+variable "vm_db_platform_id" {
+  type        = string
+  default     = "standard-v2"
+  description = "VM platform type"
+}
+
+variable "vm_db_platform_configs" {
+  type = map(object({
+    cores         = number
+    memory        = number
+    core_fraction = number
+  }))
+
+  default = {
+    "standard-v1" = {
+      cores         = 2
+      memory        = 4
+      core_fraction = 5
+    }
+    "standard-v2" = {
+      cores         = 2
+      memory        = 2
+      core_fraction = 20
+    }
+  }
+
+  description = "Platform resource configurations b zone"
+}
+
+variable "vpc_name_b" {
+  type        = string
+  default     = "develop_b"
+  description = "VPC network & subnet name"
+}
+
+variable "default_cidr_b" {
+  type        = list(string)
+  default     = ["10.0.2.0/24"]
+  description = "https://cloud.yandex.ru/docs/vpc/operations/subnet-create"
+}
+
+variable "zone_b" {
+  type        = string
+  default     = "ru-central1-b"
+  description = "https://cloud.yandex.ru/docs/overview/concepts/geo-scope"
+}
+```
+
+ ![рис 11](https://github.com/ysatii/terraform_hw2/blob/main/img/img_11.jpg)
+ ![рис 12](https://github.com/ysatii/terraform_hw2/blob/main/img/img_12.jpg)
+ ![рис 13](https://github.com/ysatii/terraform_hw2/blob/main/img/img_13.jpg)
+ ![рис 14](https://github.com/ysatii/terraform_hw2/blob/main/img/img_14.jpg)
 
 
 ### Задание 4
