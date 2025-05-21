@@ -335,11 +335,34 @@ output "VMs" {
  ![рис 15](https://github.com/ysatii/terraform_hw2/blob/main/img/img_15.jpg)
 
 
-### Задание 5
+## Задание 5
 
 1. В файле locals.tf опишите в **одном** local-блоке имя каждой ВМ, используйте интерполяцию ${..} с НЕСКОЛЬКИМИ переменными по примеру из лекции.
 2. Замените переменные внутри ресурса ВМ на созданные вами local-переменные.
 3. Примените изменения.
+
+## Решение 5
+листинг locals.tf 
+```
+locals {
+  project = "netology-develop-platform"
+  env_web = "web"
+  env_db  = "db"
+
+  vm_web_instance_name = "${local.project}-${local.env_web}"
+  vm_db_instance_name  = "${local.project}-${local.env_db}"
+}
+```
+Используем 
+
+resource "yandex_compute_instance" "platform" 
+name         = local.vm_web_instance_name
+.... 
+resource "yandex_compute_instance" "platform1" 
+name         = local.vm_db_instance_name
+....
+
+
 
 
 ### Задание 6
