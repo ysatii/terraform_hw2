@@ -3,11 +3,13 @@
 
 variable "cloud_id" {
   type        = string
+  default         = "b1ggavufohr5p1bfj10e"
   description = "https://cloud.yandex.ru/docs/resource-manager/operations/cloud/get-id"
 }
 
 variable "folder_id" {
   type        = string
+  default         = "b1g0hcgpsog92sjluneq"
   description = "https://cloud.yandex.ru/docs/resource-manager/operations/folder/get-id"
 }
 
@@ -28,11 +30,51 @@ variable "vpc_name" {
   description = "VPC network & subnet name"
 }
 
+variable vm_web_family_os{
+  type        = string
+  default     = "ubuntu-2004-lts"
+  description = "os family"
+}
+
+variable vm_web_instance_name{
+  type        = string
+  default     = "netology-develop-platform-web"
+  description = "instance name"
+}
+
+variable "vm_web_platform_id" {
+  type        = string
+  default     = "standard-v2"
+  description = "VM platform type"
+}
+
+variable "vm_web_platform_configs" {
+  type = map(object({
+    cores         = number
+    memory        = number
+    core_fraction = number
+  }))
+
+  default = {
+    "standard-v1" = {
+      cores         = 2
+      memory        = 4
+      core_fraction = 5
+    }
+    "standard-v2" = {
+      cores         = 4
+      memory        = 8
+      core_fraction = 20
+    }
+  }
+
+  description = "Platform resource configurations"
+}
 
 ###ssh vars
 
 variable "vms_ssh_root_key" {
   type        = string
-  default     = "<your_ssh_ed25519_key>"
+  default     = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGJ/8nl4RWFm+0oXUDpUSjuOP3AHCl2E/af1CpzwhtO6 lamer@lamer-VirtualBox"
   description = "ssh-keygen -t ed25519"
 }
