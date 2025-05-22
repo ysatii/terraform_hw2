@@ -365,7 +365,7 @@ name         = local.vm_db_instance_name
 
 
 
-### Задание 6
+## Задание 6
 
 1. Вместо использования трёх переменных  ".._cores",".._memory",".._core_fraction" в блоке  resources {...}, объедините их в единую map-переменную **vms_resources** и  внутри неё конфиги обеих ВМ в виде вложенного map(object).  
    ```
@@ -390,7 +390,7 @@ name         = local.vm_db_instance_name
    }
    ```
 
-   
+
 3. Создайте и используйте отдельную map(object) переменную для блока metadata, она должна быть общая для всех ваших ВМ.
    ```
    пример из terraform.tfvars:
@@ -404,6 +404,55 @@ name         = local.vm_db_instance_name
 6. Проверьте terraform plan. Изменений быть не должно.
 
 ------
+
+## Решение 6
+листинг terraform.tfvars
+```
+vms_resources = {
+  web = {
+    cores         = 2
+    memory        = 2
+    core_fraction = 5
+    hdd_size      = 5
+    hdd_type      = "network-hdd"
+  }
+  db = {
+    cores         = 2
+    memory        = 4
+    core_fraction = 20
+    hdd_size      = 5
+    hdd_type      = "network-ssd"
+  }
+}
+
+metadata = {
+  serial-port-enable = 1
+  ssh-keys = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGJ/8nl4RWFm+0oXUDpUSjuOP3AHCl2E/af1CpzwhtO6 lamer@lamer-VirtualBox"
+}
+```
+
+
+листинг variables.tf
+```
+variable "vms_resources" {
+  type = map(object({
+    cores         = number
+    memory        = number
+    core_fraction = number
+    hdd_size      = number
+    hdd_type      = string
+  }))
+}
+
+variable "metadata" {
+  type = map(any)
+}
+```
+
+
+Мы не используем дефолтных значений поэтому  terraform.tfvars - описана переменная со значениями
+variables.tf - определяем типы переменных!
+
 
 ## Дополнительное задание (со звёздочкой*)
 

@@ -36,11 +36,11 @@ variable vm_web_family_os{
   description = "os family"
 }
 
-variable vm_web_instance_name{
-  type        = string
-  default     = "netology-develop-platform-web"
-  description = "instance name"
-}
+#variable vm_web_instance_name{
+#  type        = string
+#  default     = "netology-develop-platform-web"
+#  description = "instance name"
+# }
 
 variable "vm_web_platform_id" {
   type        = string

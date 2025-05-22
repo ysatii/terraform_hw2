@@ -1,8 +1,8 @@
-variable vm_db_instance_name{
-  type        = string
-  default     = "netology-develop-platform-db"
-  description = "instance name"
-}
+#variable vm_db_instance_name{
+#  type        = string
+#  default     = "netology-develop-platform-db"
+#  description = "instance name"
+#}
 
 variable "vm_db_platform_id" {
   type        = string
