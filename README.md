@@ -45,6 +45,7 @@
 ```
 terraform -v
 ```
+
 вывод 
 ```
 Terraform v1.8.4
@@ -58,11 +59,11 @@ is 1.12.0. You can update by downloading from https://www.terraform.io/downloads
 1.  Изучено!
 
 
-2. Согласно инструкции создаем key.json сервисный авторизационный ключ!
+2. Согласно инструкции создаем **key.json** сервисный авторизационный ключ!
 https://yandex.cloud/ru/docs/cli/operations/authentication/service-account
-и положим его в корнь домашней директории 
+и положим его в корень домашней директории 
 
-3. Используем готовый ключ и . Запишите его открытую(public) часть в переменную vms_ssh_public_root_key в файле variables.tf - Выполнено!
+3. Используем готовый ключ ssh. Запишите его открытую(public) часть в переменную **vms_ssh_public_root_key** в файле variables.tf - Выполнено!
 
 4. Инициализирем  проект, выполним код. Исправим намеренно допущенные синтаксические ошибки. чём заключается их суть.
 - иницилизируем проект 
@@ -112,6 +113,8 @@ terraform apply
 что такой платформы нет !
 используем **standard-v1** 
 и попробуем еще раз
+
+
 ```
 yandex_compute_instance.platform: Creating...
 ╷
@@ -199,7 +202,7 @@ variable "vm_web_platform_configs" {
  ```
  Получим 
  ![рис 10](https://github.com/ysatii/terraform_hw2/blob/main/img/img_10.jpg)
- Изменя имя платформы у нас меняеться колличество ядер, памяти и процент использования процессора! Достаточно поменять одну настройку для смены платформы!
+ Изменяя имя платформы у нас меняется колличество ядер, памяти и процент использования процессора! Достаточно поменять одну настройку для смены платформы!
 
 
 
@@ -452,6 +455,24 @@ variable "metadata" {
 
 Мы не используем дефолтных значений поэтому  terraform.tfvars - описана переменная со значениями
 variables.tf - определяем типы переменных!
+
+variables.tf
+```
+#variable vm_web_instance_name{
+#  type        = string
+#  default     = "netology-develop-platform-web"
+#  description = "instance name"
+# }
+```
+vms_platform.tf
+```
+#variable vm_db_instance_name{
+#  type        = string
+#  default     = "netology-develop-platform-db"
+#  description = "instance name"
+#}
+```
+
 
 
 ## Дополнительное задание (со звёздочкой*)
